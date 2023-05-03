@@ -25,6 +25,7 @@ export class ViewcontainerComponent {
 
   redirectToPage(link: string): void {
     this.router.navigate([link]);
+    this.adjustNavbar(false);
   }
 
 }

@@ -4,11 +4,15 @@
   display: flex;  
   align-items: center;
   justify-content: center;
-  background-color: #504DF1;
   width: 100vw;
   height: 100vh;
 
   &.view-main--expanded {
+
+    .view-main__wrapper {
+      background-color: #504DF1;
+      transition-delay: -0.3s;
+    }
 
     .view-main__wrapper > .view-main__sidenav {
       left: 0;
@@ -31,6 +35,8 @@
     display: flex;
     overflow: hidden;
     position: relative;
+    background-color: #fff;
+    transition-delay: 0.3s;
 
     .view-main__sidenav {
       position: absolute;

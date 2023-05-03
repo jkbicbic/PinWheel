@@ -13,7 +13,7 @@
           </button>
         </li>
         <li>
-          <button>
+          <button (click)="redirectToPage('/palettes')">
             <mat-icon
               fontIcon="save"
               class="material-icons-rounded"
@@ -23,7 +23,7 @@
           </button>
         </li>
         <li>
-          <button>
+          <button (click)="redirectToPage('/')">
             <mat-icon
               fontIcon="refresh"
               class="material-icons-rounded"
@@ -49,6 +49,7 @@
           <img src="../../../assets/images/logo.svg" alt="app brand" />
           <span></span>
         </div>
+        <ng-content></ng-content>
       </div>
     </div>
   </div>

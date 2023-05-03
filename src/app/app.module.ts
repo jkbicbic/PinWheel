@@ -5,11 +5,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ViewcontainerComponent } from './components/viewcontainer/viewcontainer.component';
+import { PaletteGeneratorComponent } from './components/palette-generator/palette-generator.component';
+import { PalettesComponent } from './components/palettes/palettes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ViewcontainerComponent
+    ViewcontainerComponent,
+    PaletteGeneratorComponent,
+    PalettesComponent,
   ],
   imports: [
     BrowserModule,
