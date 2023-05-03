@@ -1,0 +1,116 @@
+@import '../../../assets/helpers.scss';
+
+.view-main {
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  &.view-main--expanded {
+
+    .view-main__wrapper {
+      background-color: #504DF1;
+      transition-delay: -0.3s;
+    }
+
+    .view-main__wrapper > .view-main__sidenav {
+      left: 0;
+    }
+
+    .view-main__wrapper > .view-main__content {
+      left: toRem(236);
+    }
+
+    .view-main__wrapper > .view-main__content > .view-main__phonesim {
+      scale: 0.8;
+    }
+
+  }
+
+  .view-main__wrapper {
+    width: toRem(320);
+    height: toRem(568);
+    border-radius: toRem(20);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+    transition-delay: 0.3s;
+
+    .view-main__sidenav {
+      position: absolute;
+      left: toRem(-236);
+      width: toRem(236);
+      height: inherit;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .view-main__sidenav
+    > ul {
+      width: 100%;
+    }
+
+    .view-main__sidenav
+    > ul > li {
+      margin-bottom: toRem(15);
+      padding: 0 toRem(30);
+    }
+
+    .view-main__sidenav
+    > ul > li > button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      font-size: toRem(18)
+    }
+
+    .view-main__sidenav
+    > ul > li > button > mat-icon {
+      margin-right: toRem(20);
+    }
+
+    .view-main__sidenav
+    > ul > li > button > span {
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 600;
+    };
+
+    .view-main__content {
+      position: absolute;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-main__content
+    > .view-main__phonesim {
+      width: 100%;
+      height: 100%;
+      border-radius: toRem(20);
+      background-color: #fff;
+      padding: toRem(10);
+    }
+
+    .view-main__content
+    > .view-main__phonesim
+    > .view-main__header {
+      display: flex;
+      align-items: center;
+      padding: toRem(10);
+    }
+
+    .view-main__content
+    > .view-main__phonesim
+    > .view-main__header > button {
+      margin-right: toRem(55);
+    }
+  }
+}

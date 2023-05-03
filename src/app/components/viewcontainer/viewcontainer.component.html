@@ -1,1 +1,56 @@
-<p>viewcontainer works!</p>
+<div class="view-main" [ngClass]="{ 'view-main--expanded': isExpanded }">
+  <div class="view-main__wrapper">
+    <div class="view-main__sidenav">
+      <ul>
+        <li>
+          <button (click)="adjustNavbar(false)">
+            <mat-icon
+              fontIcon="close"
+              class="material-icons-rounded"
+            >
+            </mat-icon>
+            <span>Close</span>
+          </button>
+        </li>
+        <li>
+          <button (click)="redirectToPage('/palettes')">
+            <mat-icon
+              fontIcon="save"
+              class="material-icons-rounded"
+            >
+            </mat-icon>
+            <span>Palletes</span>
+          </button>
+        </li>
+        <li>
+          <button (click)="redirectToPage('/')">
+            <mat-icon
+              fontIcon="refresh"
+              class="material-icons-rounded"
+            >
+            </mat-icon>
+            <span>Generate</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="view-main__content">
+      <div class="view-main__phonesim">
+        <div class="view-main__header">
+          <button (click)="adjustNavbar(true)">
+            <span class="material-icons-round">
+              <mat-icon
+                fontIcon="menu"
+                class="material-icons-rounded"
+              >
+              </mat-icon>
+            </span>
+          </button>
+          <img src="../../../assets/images/logo.svg" alt="app brand" />
+          <span></span>
+        </div>
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
