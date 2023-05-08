@@ -44,6 +44,8 @@ fdescribe('ViewcontainerComponent', () => {
     expect(component.isTransitionShown).toBeTruthy();
 
     // hides transition
+    component.adjustTransition(false)
+    expect(component.isTransitionShown).not.toBeTruthy();
   });
 
   it('should redirect to page', () => {
