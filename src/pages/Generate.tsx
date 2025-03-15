@@ -25,7 +25,6 @@ export default function GeneratePage() {
       setLoading(true)
       setImage(file);
       
-
       setTimeout(() => {
         setPreview(URL.createObjectURL(file));
         setLoading(false);
@@ -34,6 +33,26 @@ export default function GeneratePage() {
       alert("Please select a valid image file.");
     }
   };
+
+  const renderImage = () => {
+    let imgContent = <Logo className="h-5 w-5 animate-spin" />;
+
+    if (!loading && preview) {
+      imgContent = (
+        <img className="w-full h-full object-contain rounded-lg" src={preview} alt="image to process" />
+      );
+    }
+
+    if (image) {
+      return (
+        <div className="h-[18rem] w-[18rem] bg-violet-400 rounded-2xl p-[0.625rem] flex items-center justify-center">
+          {imgContent}
+        </div>
+      );
+    }
+
+    return null;
+  }
 
   return (
 
@@ -47,17 +66,7 @@ export default function GeneratePage() {
         className="hidden"
       />
 
-      {image && (
-        <div className="h-[18rem] w-[18rem] bg-violet-400 rounded-2xl p-[0.625rem] flex items-center justify-center">
-          {loading && (
-            <Logo className="h-5 w-5 animate-spin" />
-          )}
-          
-          {!loading && preview && (
-            <img className="w-full h-full object-contain rounded-lg" src={preview} alt="image to process" />
-          )}
-        </div>
-      )}
+      {renderImage()}
 
       <div className="flex items-center justify-center gap-2">
         {image && (
