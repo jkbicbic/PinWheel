@@ -30,7 +30,7 @@ export default function App() {
   return (
     <PhoneLayout isExpanded={isExpanded}>
       <PhoneSidebar isExpanded={isExpanded} onNavChange={actionHandler}/>
-      <PhoneContent isExpanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
+      <PhoneContent isExpanded={isExpanded} onClick={() => setIsExpanded(true)}>
         {renderContentPage()}
       </PhoneContent>
     </PhoneLayout>  

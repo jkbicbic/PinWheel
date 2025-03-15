@@ -8,7 +8,7 @@ interface IconButtonProps extends PropsWithChildren {
 
 export function IconButton({ icon, children, onClick, className }: IconButtonProps) {
   return (
-    <button className="flex items-center gap-2 p-[1rem] w-fit cursor-pointer" onClick={onClick}>
+    <button className={`flex items-center gap-2 p-[1rem] w-fit cursor-pointer ${className}`} onClick={onClick}>
       <img src={icon} alt="icon" />
       {children}
     </button>

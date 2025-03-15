@@ -1,8 +1,12 @@
 import { PropsWithChildren } from "react";
 
-export function Typography({ children }: PropsWithChildren) {
+interface Typography extends PropsWithChildren {
+  className?: string;
+}
+
+export function Typography({ children, className }: Typography) {
   return (
-    <p className="font-[Poppins] text-white font-semibold">
+    <p className={`font-[Poppins] text-white font-semibold ${className}`}>
       {children}
     </p>
   );
