@@ -8,7 +8,7 @@ export default function App() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [pageAction, setPageAction] = useState<NavConfigActionsEnum>(NavConfigActionsEnum.GENERATE);
 
-  // don't sit well with me, will get back to this
+  // TODO: transfer all this actions and isExpanded to context
   const actionHandler = (action: NavConfigActionsEnum) => {
     setIsExpanded(false);
 

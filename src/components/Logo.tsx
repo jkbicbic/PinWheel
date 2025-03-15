@@ -1,5 +1,3 @@
-import LogoFull from '../assets/branding/logo-full.svg';
-
 interface LogoProps {
   className?: string;
   isFull?: boolean;
