@@ -1,20 +1,40 @@
 import { PropsWithChildren } from "react";
 
+import { IconButton } from "../components/IconButton";
+import { Typography } from "../components/Typography";
+
+import { navConfig, NavConfigActionsEnum } from "../config/NavConfig";
+
+import IconMenu from '../assets/icons/ic-menu.svg';
+import { Logo } from "../components/Logo";
+
 interface PhoneChildLayoutProps {
   isExpanded?: boolean;
+}
+
+interface PhoneSidebarProps extends PhoneChildLayoutProps {
+  onNavChange: (action: NavConfigActionsEnum) => void;
 }
 
 interface PhoneContentProps extends PhoneChildLayoutProps, PropsWithChildren {
   onClick: () => void;
 }
 
-export function PhoneSidebar({ isExpanded }: PhoneChildLayoutProps) {
+export function PhoneSidebar({ isExpanded, onNavChange }: PhoneSidebarProps) {
   const baseClass = 'shrink-0 h-full w-[80%] overflow-hidden relative';
   const finalClass = isExpanded ? baseClass + ' left-0' : baseClass + ' left-[-100%]';
 
   return (
     <div className={finalClass}>
-      <p>sidebar</p>
+      <ul className="h-full flex flex-col justify-center [&>li>button]:px-[2rem]">
+        {navConfig.map((item) => (
+          <li>
+            <IconButton icon={item.icon} onClick={() => onNavChange(item.action)}>
+              <Typography>{item.text}</Typography>  
+            </IconButton>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -25,14 +45,12 @@ export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProp
 
   return (
     <div className={finalClass}>
-      <div className={`bg-white h-full w-full rounded-2xl ${isExpanded ? 'scale-80 shadow-xl opacity-90' : ''}`}>
-        <nav className="h-[2rem] flex items-center">
-          <button onClick={onClick}>
-            expand
-          </button>
+      <div className={`bg-white h-full w-full md:rounded-2xl ${isExpanded ? 'scale-80 shadow-xl opacity-90 rounded-2xl' : ''}`}>
+        <nav className="h-[4rem] flex gap-9 items-center justify-start px-[0.8rem]">
+          <IconButton icon={IconMenu} onClick={onClick} />
+          <Logo isFull />
         </nav>
-        <div className="h-[calc(100% - 2rem))] overflow-auto">
-          content
+        <div className="h-[calc(100% - 4rem))] overflow-auto">
           {children}
         </div>
       </div>

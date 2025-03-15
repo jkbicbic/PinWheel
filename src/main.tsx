@@ -1,8 +1,9 @@
-import { StrictMode } from 'react'
+import { lazy, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css';
-import { App } from './App';
 import { SuspenseLayout } from './layouts/SuspenseLayout';
+
+const App = lazy(() => import('./App'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

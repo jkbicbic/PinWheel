@@ -1,6 +1,20 @@
-export function Logo() {
+import LogoFull from '../assets/branding/logo-full.svg';
+
+interface LogoProps {
+  className?: string;
+  isFull?: boolean;
+}
+
+export function Logo({ className, isFull }: LogoProps) {
+  if (isFull) {
+    return (
+      <img className={className} src={LogoFull} alt="brand image" />   
+    )
+  }
+
   return (
     <svg
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="188"
       height="189"
