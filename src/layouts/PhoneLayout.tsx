@@ -12,6 +12,8 @@ interface PhoneChildLayoutProps {
   isExpanded?: boolean;
 }
 
+type PhoneLayoutProps = PhoneChildLayoutProps & PropsWithChildren;
+
 interface PhoneSidebarProps extends PhoneChildLayoutProps {
   onNavChange: (action: NavConfigActionsEnum) => void;
 }
@@ -45,10 +47,10 @@ export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProp
 
   return (
     <div className={finalClass}>
-      <div className={`bg-white h-full w-full md:rounded-2xl ${isExpanded ? 'scale-80 shadow-xl opacity-90 rounded-2xl' : ''}`}>
+      <div className={`bg-white h-full w-full shadow-xl  rounded-2xl ${isExpanded ? 'scale-80 opacity-90' : ''}`}>
         <nav className="h-[4rem] flex gap-9 items-center justify-start px-[0.8rem]">
           <IconButton icon={IconMenu} onClick={onClick} />
-          <Logo isFull />
+          <Logo className="[&>path]:fill-purple-600" isFull />
         </nav>
         <div className="h-[calc(100% - 4rem))] overflow-auto">
           {children}
@@ -58,10 +60,12 @@ export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProp
   )
 }
 
-export function PhoneLayout({ children }: PropsWithChildren) {
+export function PhoneLayout({ children, isExpanded }: PhoneLayoutProps) {
   return (
     <div className="flex items-center justify-center w-[100vw] h-[100vh]">
-      <div className="flex w-[100vw] h-[100vh] bg-gradient-to-br from-fuchsia-600 via-violet-600 to-purple-600 relative overflow-hidden md:w-[20rem] md:h-[35.5rem] md:rounded-3xl">
+      <div
+        className={`flex w-[100vw] h-[100vh] relative overflow-hidden md:w-[20rem] md:h-[35.5rem] md:rounded-3xl bg-gradient-to-br ${isExpanded ? ' from-fuchsia-600 via-violet-600 to-purple-600 !transition-none' : ' from-fuchsia-50 to-fuchsia-50 !transition !delay-[0.3s]'}`}
+      >
         {children}
       </div>
     </div>
