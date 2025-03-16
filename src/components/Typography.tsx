@@ -1,12 +1,12 @@
-import { PropsWithChildren } from "react";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
-interface Typography extends PropsWithChildren {
+interface Typography extends PropsWithChildren, HTMLAttributes<HTMLParagraphElement> {
   className?: string;
 }
 
-export function Typography({ children, className }: Typography) {
+export function Typography({ children, className, style }: Typography) {
   return (
-    <p className={`font-[Poppins] text-white font-semibold ${className}`}>
+    <p style={style} className={`font-[Poppins] text-white font-semibold ${className}`}>
       {children}
     </p>
   );

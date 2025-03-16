@@ -8,12 +8,20 @@ import IconUpload from '../assets/icons/ic-upload.svg';
 import IconRefresh from '../assets/icons/ic-refresh.svg';
 import IconSave from '../assets/icons/ic-save.svg';
 
+const mockedPalette: string[] = [
+  '#c98532',
+  '#444db3',
+  '#7fb364',
+  '#b0a61c',
+];
+
 export default function GeneratePage() {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [isPaletteGenerated, setIsPalleteGenerated] = useState<boolean>(false);
+  const [palette, setPalette] = useState<string[] | null>(null);
+  const [selectedHex, setSelectedHex] = useState<number>(0);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -22,7 +30,7 @@ export default function GeneratePage() {
     setPreview(null);
     setLoading(false);
     setIsGenerating(false);
-    setIsPalleteGenerated(false);
+    setPalette(null);
   } 
 
   const onSelectImage = (): void => {
@@ -35,7 +43,7 @@ export default function GeneratePage() {
     if (file && file.type.startsWith("image/")) {
       setLoading(true)
       setImage(file);
-      setIsPalleteGenerated(false);
+      setPalette(null)
       
       setTimeout(() => {
         setPreview(URL.createObjectURL(file));
@@ -50,7 +58,7 @@ export default function GeneratePage() {
   };
 
   const renderImage = (): ReactNode => {
-    if (!isGenerating && !isPaletteGenerated && image) {
+    if (!isGenerating && !palette && image) {
       return (
         <div className="h-[18rem] w-[18rem] bg-violet-400 rounded-2xl p-[0.625rem] flex items-center justify-center">
           {!loading && preview ? (
@@ -72,7 +80,7 @@ export default function GeneratePage() {
     // this is where the generation
     // code should be
     setTimeout(() => {
-      setIsPalleteGenerated(true);
+      setPalette(mockedPalette);
       setImage(null);
       setIsGenerating(false);
     }, 4000)
@@ -88,7 +96,7 @@ export default function GeneratePage() {
     if (!isGenerating) {
       return (
         <div className="flex flex-col gap-5 justify-center">
-          {!isPaletteGenerated && !image && (
+          {!palette && !image && (
             <Typography className="!text-gray-500 text-center">
               Upload a photo to generate its palette
             </Typography>
@@ -106,7 +114,7 @@ export default function GeneratePage() {
               </IconButton> 
             )}
 
-            {isPaletteGenerated && (
+            {palette && (
               <IconButton className="rounded-full bg-purple-500 !py-[0.5rem]" icon={IconSave} onClick={onSavePalette}>
                 <Typography>Save</Typography>
               </IconButton> 
@@ -135,7 +143,22 @@ export default function GeneratePage() {
       />
 
       {isGenerating && <Logo className="h-10 w-10 animate-spin [&>path]:fill-purple-500" /> }
-      {isPaletteGenerated && <Logo className="[&>path]:fill-purple-500 mb-10" />}
+      {palette && (
+        <>
+          <Logo
+            className="mb-10 [&>path]:cursor-pointer"
+            colorPaths={mockedPalette}
+            onClickHex={(i) => setSelectedHex(i)}
+          />
+          <div className="flex items-center justify-center gap-2">
+            <div style={{ backgroundColor: palette[selectedHex] }} className="h-5 w-5 rounded-full" />
+
+            <Typography style={{ color: palette[selectedHex] }}>
+              {palette[selectedHex]}
+            </Typography>
+          </div>
+        </>
+      )}
       {renderImage()}
       {renderActions()}
     </div>

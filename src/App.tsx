@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { PhoneContent, PhoneLayout, PhoneSidebar } from "./layouts/PhoneLayout";
 import { NavConfigActionsEnum } from "./config/NavConfig";
 import GeneratePage from "./pages/Generate";
