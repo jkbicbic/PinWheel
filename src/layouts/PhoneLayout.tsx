@@ -3,26 +3,15 @@ import { PropsWithChildren } from "react";
 import { IconButton } from "../components/IconButton";
 import { Typography } from "../components/Typography";
 
-import { navConfig, NavConfigActionsEnum } from "../config/NavConfig";
+import { navConfig } from "../config/NavConfig";
 
 import IconMenu from '../assets/icons/ic-menu.svg';
 import { Logo } from "../components/Logo";
+import { useNav } from "../context/Nav";
 
-interface PhoneChildLayoutProps {
-  isExpanded?: boolean;
-}
+export function PhoneSidebar() {
+  const { isExpanded, onChangeAction } = useNav();
 
-type PhoneLayoutProps = PhoneChildLayoutProps & PropsWithChildren;
-
-interface PhoneSidebarProps extends PhoneChildLayoutProps {
-  onNavChange: (action: NavConfigActionsEnum) => void;
-}
-
-interface PhoneContentProps extends PhoneChildLayoutProps, PropsWithChildren {
-  onClick: () => void;
-}
-
-export function PhoneSidebar({ isExpanded, onNavChange }: PhoneSidebarProps) {
   const baseClass = 'shrink-0 h-full w-[80%] overflow-hidden relative';
   const finalClass = isExpanded ? baseClass + ' left-0' : baseClass + ' left-[-100%]';
 
@@ -31,7 +20,7 @@ export function PhoneSidebar({ isExpanded, onNavChange }: PhoneSidebarProps) {
       <ul className="h-full flex flex-col justify-center [&>li>button]:px-[2rem]">
         {navConfig.map((item) => (
           <li>
-            <IconButton icon={item.icon} onClick={() => onNavChange(item.action)}>
+            <IconButton icon={item.icon} onClick={() => onChangeAction(item.action)}>
               <Typography>{item.text}</Typography>  
             </IconButton>
           </li>
@@ -41,7 +30,9 @@ export function PhoneSidebar({ isExpanded, onNavChange }: PhoneSidebarProps) {
   );
 }
 
-export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProps) {
+export function PhoneContent({ children }: PropsWithChildren) {
+  const { isExpanded, onExpand } = useNav();
+
   const baseClass = 'shrink-0 h-full w-full overflow-hidden absolute top-0';
   const finalClass = isExpanded ? baseClass + ' left-[80%]' : baseClass + ' left-0';
 
@@ -49,7 +40,7 @@ export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProp
     <div className={finalClass}>
       <div className={`flex flex-col overflow-auto bg-white h-full w-full shadow-xl rounded-2xl ${isExpanded ? 'scale-80 opacity-90' : ''}`}>
         <nav className="sticky h-[4rem] w-full flex gap-9 items-center justify-start px-[0.8rem] z-2">
-          <IconButton icon={IconMenu} onClick={onClick} />
+          <IconButton icon={IconMenu} onClick={onExpand} />
           <Logo className="[&>path]:fill-purple-600" isFull />
         </nav>
         <div className="flex-grow w-full overflow-auto p-[0.625rem]">
@@ -60,7 +51,9 @@ export function PhoneContent({ isExpanded, onClick, children }: PhoneContentProp
   )
 }
 
-export function PhoneLayout({ children, isExpanded }: PhoneLayoutProps) {
+export function PhoneLayout({ children }: PropsWithChildren) {
+  const { isExpanded } = useNav();
+
   return (
     <div className="flex items-center justify-center w-[100vw] h-[100vh]">
       <div

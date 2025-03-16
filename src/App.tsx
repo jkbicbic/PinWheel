@@ -3,34 +3,25 @@ import { PhoneContent, PhoneLayout, PhoneSidebar } from "./layouts/PhoneLayout";
 import { NavConfigActionsEnum } from "./config/NavConfig";
 import GeneratePage from "./pages/Generate";
 import PalettesPage from "./pages/Palettes";
+import { useNav } from "./context/Nav";
 
 export default function App() {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [pageAction, setPageAction] = useState<NavConfigActionsEnum>(NavConfigActionsEnum.GENERATE);
-
-  // TODO: transfer all this actions and isExpanded to context
-  const actionHandler = (action: NavConfigActionsEnum) => {
-    setIsExpanded(false);
-
-    if (action !== NavConfigActionsEnum.CLOSE) {
-      setPageAction(action);
-    }
-  }
+  const { action }= useNav();
 
   const renderContentPage = () => {
-    if (pageAction === NavConfigActionsEnum.GENERATE) {
+    if (action === NavConfigActionsEnum.GENERATE) {
       return <GeneratePage />
     }
 
-    if (pageAction === NavConfigActionsEnum.SAVELIST) {
+    if (action === NavConfigActionsEnum.SAVELIST) {
       return <PalettesPage />
     }
   }
 
   return (
-    <PhoneLayout isExpanded={isExpanded}>
-      <PhoneSidebar isExpanded={isExpanded} onNavChange={actionHandler}/>
-      <PhoneContent isExpanded={isExpanded} onClick={() => setIsExpanded(true)}>
+    <PhoneLayout>
+      <PhoneSidebar/>
+      <PhoneContent>
         {renderContentPage()}
       </PhoneContent>
     </PhoneLayout>  
