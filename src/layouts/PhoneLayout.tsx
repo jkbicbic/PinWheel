@@ -39,9 +39,10 @@ export function PhoneContent({ children }: PropsWithChildren) {
   return (
     <div className={finalClass}>
       <div className={`flex flex-col overflow-auto bg-white h-full w-full shadow-xl rounded-2xl ${isExpanded ? 'scale-80 opacity-90' : ''}`}>
-        <nav className="sticky h-[4rem] w-full flex gap-9 items-center justify-start px-[0.8rem] z-2">
+        <nav className="sticky h-[4rem] w-full flex items-center justify-between px-[0.8rem] z-2">
           <IconButton icon={IconMenu} onClick={onExpand} />
-          <Logo className="[&>path]:fill-purple-600" isFull />
+          <Logo className="justify-self-center [&>path]:fill-purple-600" isFull />
+          <div className="w-[3.5rem]" />
         </nav>
         <div className="flex-grow w-full overflow-auto p-[0.625rem]">
           {children}

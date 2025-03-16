@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useRef, useState } from "react";
+import { ChangeEvent, createElement, ReactNode, useRef, useState } from "react";
 
 import { IconButton } from "../components/IconButton";
 import { Typography } from "../components/Typography";
@@ -7,6 +7,7 @@ import { Logo } from "../components/Logo";
 import IconUpload from '../assets/icons/ic-upload.svg';
 import IconRefresh from '../assets/icons/ic-refresh.svg';
 import IconSave from '../assets/icons/ic-save.svg';
+import { PaletteExtractor } from "../utils/PaletteExtractor";
 
 const mockedPalette: string[] = [
   '#c98532',
@@ -73,17 +74,26 @@ export default function GeneratePage() {
     return null;
   }
 
-  const onGeneratePallete = (): void => {
-    setIsGenerating(true);
+  const onGeneratePallete = async (): Promise<void> => {
+    
 
-    // mocked generating pallete
-    // this is where the generation
-    // code should be
-    setTimeout(() => {
-      setPalette(mockedPalette);
+    try {
+      setIsGenerating(true);
+
+      // setPalette(mockedPalette);
+      if (!preview) {
+        throw new Error('Image has not loaded!')
+      };
+      
+      const pal = await PaletteExtractor(preview);
+
+      setPalette(pal);
       setImage(null);
       setIsGenerating(false);
-    }, 4000)
+
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   const onSavePalette = (): void => {
@@ -147,7 +157,7 @@ export default function GeneratePage() {
         <>
           <Logo
             className="mb-10 [&>path]:cursor-pointer"
-            colorPaths={mockedPalette}
+            colorPaths={palette}
             onClickHex={(i) => setSelectedHex(i)}
           />
           <div className="flex items-center justify-center gap-2">
