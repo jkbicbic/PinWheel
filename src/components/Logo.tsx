@@ -16,7 +16,7 @@ interface PathProps {
 }
 
 export function Logo({ className, isFull, colorPaths, onClickHex }: LogoProps) {
-  const [selectedHex, setSelectedHex] = useState<number>(0);
+  const [selectedHex, setSelectedHex] = useState<number | null>(null);
 
   const onSelectHex = (index: number): void => {
     setSelectedHex(index);

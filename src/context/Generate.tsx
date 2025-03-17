@@ -37,6 +37,7 @@ export function GenerateProvider({ children }: PropsWithChildren) {
     setLoading(false);
     setIsGenerating(false);
     setPalette(null);
+    setSelectedHex(null);
   }
 
   return (
@@ -59,8 +60,8 @@ export function GenerateProvider({ children }: PropsWithChildren) {
       }}
     >
         <div className="w-full h-full flex flex-col gap-10 items-center justify-center">
-          {isGenerating && <Logo className="h-10 w-10 animate-spin [&>path]:fill-purple-500" /> }
           {children}
+          {isGenerating && <Logo className="h-10 w-10 animate-spin [&>path]:fill-purple-500" /> }
         </div>
     </GenerateContext.Provider>
   );

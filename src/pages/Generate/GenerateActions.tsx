@@ -7,9 +7,23 @@ import IconRefresh from '../../assets/icons/ic-refresh.svg';
 import IconSave from '../../assets/icons/ic-save.svg';
 
 import { ProcessImage } from "../../utils/PaletteExtractor";
+import { NavConfigActionsEnum } from "../../config/NavConfig";
+import { useNav } from "../../context/Nav";
 
 export function GenerateActions() {
-  const { loading, preview, palette, image, isGenerating, fileInputRef, setIsGenerating, setPalette, setImage, setInitialState, setPreview, setSelectedHex } = useGenerate();
+  const {
+    loading,
+    preview,
+    palette,
+    image,
+    isGenerating,
+    fileInputRef,
+    setIsGenerating,
+    setPalette,
+    setInitialState,
+  } = useGenerate();
+
+  const { onChangeAction } = useNav();
 
   const onSelectImage = (): void => {
     fileInputRef.current?.click();
@@ -26,10 +40,7 @@ export function GenerateActions() {
       const pal = await ProcessImage(preview);
 
       setPalette(pal);
-      setImage(null);
-      setPreview(null);
       setIsGenerating(false);
-      setSelectedHex(null);
 
     } catch(err) {
       console.error(err);
@@ -37,10 +48,16 @@ export function GenerateActions() {
   }
 
   const onSavePalette = (): void => {
-    // saving of palettes here
+    setIsGenerating(true)
+
+    const savedPalettes = localStorage.getItem('saved_palettes');
+    let parsedPalettes = savedPalettes ? JSON.parse(savedPalettes) : [];
+
+    localStorage.setItem('saved_palettes', JSON.stringify([...parsedPalettes, { name: image?.name, palette }]))
 
     setTimeout(() => {
       setInitialState();
+      onChangeAction(NavConfigActionsEnum.SAVELIST);
     }, 500);
   }
 
@@ -55,7 +72,7 @@ export function GenerateActions() {
       )}
 
       <div className="flex items-center justify-center gap-2">
-        {image && (
+        {image && !palette && (
           <IconButton
             className="rounded-full bg-purple-500 !py-[0.5rem]"
             icon={IconRefresh}
