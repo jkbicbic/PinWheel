@@ -16,43 +16,46 @@ function extractPalette(rgb: number[][]): string[] {
 }
 
 
-export function PaletteExtractor(imageUrl: string): Promise<string[]> {
-  return new Promise((resolve) => {
+export function ProcessImage(imageUrl: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
 
     // create dom elements
     const canvas = document.createElement('canvas');
-    const img = document.createElement('img');
+    const img = new Image();
 
-    // get context of canvas
-    const context = canvas.getContext('2d', {
-      willReadFrequently: true,
-    });
+    img.src = imageUrl
 
-    // apply image to img element
-    img.src = imageUrl;
+    img.onload = () => {
+      // set canvas dimensions
+      canvas.width = img.width;
+      canvas.height = img.height;
 
-    // draw image in canvas
-    context?.drawImage(img,0,0);
-    const pData: number[][] = [];
+      // get canvas context
+      const context = canvas.getContext('2d', { willReadFrequently: true });
 
-    // loop to image pixel data
-    for (let i = 1; i < img.width; i++) {
-      for (let j = 1; j < img.height; j++) {
-        const p: Uint8ClampedArray<ArrayBufferLike> | undefined  = context?.getImageData(i,j,1,1).data;
+      if (!context) return reject("Could not get canvas context");
 
-        // if p is not empty
-        // extract rgb data and
-        // add it to pData array
-        if (p) {
-          pData.push([p[0], p[1], p[2]]);
-        }
+      // draw image based on img data
+      context.drawImage(img, 0, 0, img.width, img.height);
+
+      // get all data at once
+      const imageData = context.getImageData(0, 0, img.width, img.height).data;
+
+      // extract pixel data from image data
+      const pData: number[][] = [];
+      for (let i = 0; i < imageData.length; i += 4) {
+        const r = imageData[i];
+        const g = imageData[i + 1];
+        const b = imageData[i + 2];
+
+        pData.push([r,g,b]);
       }
-    }
 
-    const finalPalette = extractPalette(pData);
+      const palette = extractPalette(pData)
 
-    console.log(finalPalette);
+      resolve(palette);
+    };
 
-    resolve(finalPalette);
+    img.onerror = () => reject("Failed to load image");
   });
 }

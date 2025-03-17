@@ -1,11 +1,40 @@
+import { useState } from "react";
+
 interface LogoProps {
   className?: string;
   isFull?: boolean;
   colorPaths?: string[];
-  onClickHex?: (index: number) => void;
+  onClickHex?: (index?: string) => void;
+}
+
+interface PathProps {
+  fill: string;
+  onClick: () => void;
+  stroke: string;
+  strokeWidth: number;
+  strokeOpacity: number;
 }
 
 export function Logo({ className, isFull, colorPaths, onClickHex }: LogoProps) {
+  const [selectedHex, setSelectedHex] = useState<number>(0);
+
+  const onSelectHex = (index: number): void => {
+    setSelectedHex(index);
+    onClickHex?.(colorPaths?.[index]);
+  }
+
+  const pathAttributes = (index: number): PathProps => {
+    const isSelected = selectedHex === index;
+
+    return {
+      fill: colorPaths?.[index] || '',
+      onClick: () => onSelectHex(index),
+      stroke: isSelected ? '#7d57b3' : '',
+      strokeWidth: 2,
+      strokeOpacity: isSelected ? 1 : 0,
+    }
+  }
+
   if (isFull) {
     return (
       <svg
@@ -37,10 +66,22 @@ export function Logo({ className, isFull, colorPaths, onClickHex }: LogoProps) {
       fill="none"
       viewBox="0 0 188 189"
     >
-      <path fill={colorPaths?.[1]} onClick={() => onClickHex?.(1)} d="M93.8232 93.8232C93.8232 67.9482 115.386 46.3857 141.261 46.3857C163.427 46.3857 182.402 62.1694 187.404 82.9557C188.698 88.4757 184.644 93.8232 179.038 93.8232H93.8232Z" />
-      <path fill={colorPaths?.[3]} onClick={() => onClickHex?.(3)} d="M93.8232 93.8232C93.8232 119.698 72.2607 141.261 46.3857 141.261C24.2194 141.261 5.24444 125.477 0.241945 104.691C-1.05181 99.1707 3.00194 93.8232 8.60819 93.8232H93.8232Z" />
-      <path fill={colorPaths?.[0]} onClick={() => onClickHex?.(0)} d="M93.8232 93.8232C67.9482 93.8232 46.3857 72.2607 46.3857 46.3857C46.3857 24.2194 62.1695 5.24444 82.9557 0.241945C88.4757 -1.05181 93.8232 3.00194 93.8232 8.60819V93.8232Z" />
-      <path fill={colorPaths?.[2]} onClick={() => onClickHex?.(2)} d="M93.8232 93.8232C119.698 93.8232 141.261 115.386 141.261 141.261C141.261 163.427 125.477 182.402 104.691 187.404C99.1707 188.698 93.8232 184.644 93.8232 179.038V93.8232Z" />
+      <path
+        {...pathAttributes(1)}
+        d="M93.8232 93.8232C93.8232 67.9482 115.386 46.3857 141.261 46.3857C163.427 46.3857 182.402 62.1694 187.404 82.9557C188.698 88.4757 184.644 93.8232 179.038 93.8232H93.8232Z"
+      />
+      <path
+        {...pathAttributes(3)}
+        d="M93.8232 93.8232C93.8232 119.698 72.2607 141.261 46.3857 141.261C24.2194 141.261 5.24444 125.477 0.241945 104.691C-1.05181 99.1707 3.00194 93.8232 8.60819 93.8232H93.8232Z"
+      />
+      <path
+        {...pathAttributes(0)}
+        d="M93.8232 93.8232C67.9482 93.8232 46.3857 72.2607 46.3857 46.3857C46.3857 24.2194 62.1695 5.24444 82.9557 0.241945C88.4757 -1.05181 93.8232 3.00194 93.8232 8.60819V93.8232Z"
+      />
+      <path
+        {...pathAttributes(2)}
+        d="M93.8232 93.8232C119.698 93.8232 141.261 115.386 141.261 141.261C141.261 163.427 125.477 182.402 104.691 187.404C99.1707 188.698 93.8232 184.644 93.8232 179.038V93.8232Z"
+      />
     </svg>
   )
 }

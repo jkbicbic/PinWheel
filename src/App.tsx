@@ -1,6 +1,6 @@
 import { PhoneContent, PhoneLayout, PhoneSidebar } from "./layouts/PhoneLayout";
 import { NavConfigActionsEnum } from "./config/NavConfig";
-import GeneratePage from "./pages/Generate";
+import GeneratePage from "./pages/Generate/Generate";
 import PalettesPage from "./pages/Palettes";
 import { useNav } from "./context/Nav";
 
